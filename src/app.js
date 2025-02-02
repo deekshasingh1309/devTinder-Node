@@ -5,7 +5,6 @@ const app=express();
 
 //to handle to code 
 //request handler function
-
 app.use("/text",(req,res)=>{
     //respond to the server
     res.send("In the text server "); //based on route  
@@ -23,16 +22,29 @@ app.use("/hello",(req,res)=>{
     res.send("Hello hello ..");
 });
 
-
 app.use("/world",(req,res)=>{
     res.send("World server");
+});
+
+//to handle get http method API call
+app.get("/user",(req,res)=>{
+    res.send({firstName:"Deeksha",lastName:"Singh"});
+});
+
+app.post("/user",(req,res)=>{
+    //write logic to save data to DB
+    res.send("Data saved successfully in DB");
+});
+
+app.delete("/user",(req,res)=>{
+    //data delete logic
+    res.send("Data deleted successfully from DB");
 });
 
 app.use("/",(req,res)=>{
     //respond to the server
     res.send("In the main page"); //whatever request is coming we are sending the same response if route is not passed  
 });
-
 //server is listening on port no 3000
 app.listen(7777,()=>{
     console.log("Server is running on port 7777");
