@@ -87,12 +87,102 @@ app.delete("/user",(req,res)=>{
 // });
 
 //to make the route dynamic -> user/1 or user/1?name=dee will work
-app.get("/user/:userId",(req,res)=>{
+// app.get("/user/:userId",(req,res)=>{
 //to read the dynamic URL with :
-console.log(req.params);
-res.send({firstName:"Deeksha",lastName:"Singh"});
-});
+// console.log(req.params);
+// res.send({firstName:"Deeksha",lastName:"Singh"});
+// });
 
+// handling multiple route handlers on same url , it will give the response of the 1st handler and won't go to the 2nd handler
+// app.get("/user",
+//     (req,res)=>{
+//     console.log("first handler");    
+//     res.send("Response 1");
+// },
+// (req,res)=>{
+//     console.log("second handler");    
+//     res.send("Response 2");
+// });
+
+//comment 1st response and check -> it will console 1st handlers and go hang and won't give any response
+// app.get("/user",
+//     (req,res)=>{
+//     console.log("first handler");    
+//     // res.send("Response 1");
+// },
+// (req,res)=>{
+//     console.log("second handler");    
+//     res.send("Response 2");
+// });
+
+//how to send to 2nd handler response ->using next from express js -> it will give the response of the 2nd handler
+// app.get("/user",
+//     (req,res,next)=>{
+//     console.log("first handler");    
+//     next();
+// },
+// (req,res)=>{
+//     console.log("second handler");    
+//     res.send("Response 2");
+// });
+
+//mutiple route handlers and next function -> it will give the response of the 2nd handler and give error for 1st response send when it will be executed after next() is done
+// app.get("/user",
+//     (req,res,next)=>{
+//     console.log("first handler");    
+//     next();
+//     res.send("Response 1");
+// },
+// (req,res)=>{
+//     console.log("second handler");    
+//     res.send("Response 2");
+// });
+
+
+// many handlers and we will get response of 2nd handler and 3rd and 4th won't be executed and we give get error for 3rd response
+// app.get("/user",
+//     (req,res,next)=>{
+//     console.log("first handler");    
+//     next();
+// },
+// (req,res,next)=>{
+//     console.log("second handler");    
+//     res.send("Response 2");
+//     next();
+// },
+// (req,res,next)=>{
+//     console.log("third handler");    
+//     res.send("Response 3");
+// },
+// (req,res,next)=>{
+//     console.log("fourth handler");    
+//     res.send("Response 4");
+// },
+// );
+
+
+// many handlers and it will hang as no response is sent from any of handlers
+app.get("/user",
+    (req,res,next)=>{
+    console.log("first handler");    
+    next();
+},
+(req,res,next)=>{
+    console.log("second handler");    
+    // res.send("Response 2");
+    next();
+},
+(req,res,next)=>{
+    console.log("third handler");    
+    // res.send("Response 3");
+    next();
+},
+(req,res,next)=>{
+    console.log("fourth handler");    
+    // res.send("Response 4");
+    next();
+},
+);
 
 app.use("/",(req,res)=>{
     //respond to the server
